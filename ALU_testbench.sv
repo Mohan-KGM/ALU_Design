@@ -1,4 +1,3 @@
-// or browse Example
 `define data_size 8
 `define opcode_size 4
 module ALU_8bit_tb;
@@ -132,4 +131,206 @@ module ALU_8bit_tb;
     else $display ("INFO: Subtraction succeeded. Expected = %0h Actual %0h", (A-B), out);
   end
   endtask
+  
+   
+  task do_mul();
+  begin
+    @(posedge clk);
+    en = 1;
+    A = 'b10101010;
+    B = 'b01010101;
+    opcode = 'b1101;
+  end
+  endtask
+  
+   task chk_mul();
+  begin
+    @(posedge clk);
+    en = 1;
+    A = 'b10101010;
+    B = 'b01010101;
+    opcode = 'b1101;
+    @(posedge clk);
+    if (out != A*B) $display ("ERROR: Multiplication failed. Expected = %h Actual %h", (A*B), out);
+    else $display ("INFO: multiplication succeeded. Expected = %0h Actual %0h", (A*B), out);
+  end
+  endtask
+  
+   task do_div();
+   begin
+    @(posedge clk);
+    en = 1;
+    A = 'b10101010;
+    B = 'b01010101;
+    opcode = 'b1100;
+  end
+  endtask
+  
+  task chk_div();
+  begin
+    @(posedge clk);
+    en = 1;
+    A = 'b10101010;
+    B = 'b01010101;
+    opcode = 'b1100;
+    @(posedge clk);
+    if (out != A/B) $display ("ERROR:Division failed. Expected = %h Actual %h", (A/B), out);
+    else $display ("INFO: Division succeeded. Expected = %0h Actual %0h", (A/B), out);
+  end
+  endtask
+
+  task do_incr();
+    begin
+      @(posedge clk);
+      en = 1;
+      A = 'b10101010;
+      opcode = 'b1011; //INCR
+    end
+  endtask
+  
+  task chk_incr();
+    begin
+      @(posedge clk);
+      en = 1;
+      A = 'b10101010;
+      opcode = 'b1011; //INCR
+      @(posedge clk);
+      if (out != A+1) $display ("ERROR: Increment failed. Expected = %h Actual %h", (A+1), out);
+      else $display ("INFO: Increment succeeded. Expected = %0h Actual %0h", (A+1), out);
+  end
+  endtask
+  
+  task do_decr();
+   begin
+      @(posedge clk);
+      en = 1;
+      A = 'b10101010;
+      opcode = 'b1010; 
+    end
+  endtask
+  
+  task chk_decr();
+    begin
+      @(posedge clk);
+      en = 1;
+      A = 'b10101010;
+      opcode = 'b1010;
+      @(posedge clk);
+      if (out != A-1) $display ("ERROR: decrement failed. Expected = %h Actual %h", (A-1), out);
+      else $display ("INFO: decrement succeeded. Expected = %0h Actual %0h", (A-1), out);
+    end
+  endtask
+  
+  task do_and();
+    begin
+      @(posedge clk);
+      en = 1;
+      A = 'b10101010;
+      B = 'b01010101;
+      opcode = 'b0111;
+    end
+  endtask
+  
+  task chk_and();
+    begin
+      @(posedge clk);
+      en = 1;
+      A = 'b10101010;
+      B = 'b01010101;
+      opcode = 'b0111; 
+      @(posedge clk);
+      if (out !== A&B) $display ("%t ERROR: AND failed. Expected = %h Actual %h", $time,(A&B), out);
+      else $display ("INFO: AND succeeded. Expected = %0h Actual %0h", (A&B), out);
+    end
+  endtask
+  task do_or();
+    begin
+      @(posedge clk);
+      en = 1;
+      A = 'b10101010;
+      B = 'b01010101;
+      opcode = 'b0110;
+    end
+  endtask
+  
+  task chk_or();
+    begin
+      @(posedge clk);
+      en = 1;
+      A = 'b10101010;
+      B = 'b01010101;
+      opcode = 'b0110; 
+      @(posedge clk);
+      if (out != A|B) $display ("ERROR: OR failed. Expected = %h Actual %h", (A|B), out);
+      else $display ("INFO: OR succeeded. Expected = %0h Actual %0h", (A|B), out);
+  end
+  endtask
+  
+   task do_xor();
+    begin
+      @(posedge clk);
+      en = 1;
+      A = 'b10101010;
+      B = 'b01010101;
+      opcode = 'b0101;
+    end
+  endtask
+  
+  task chk_xor();
+    begin
+      @(posedge clk);
+      en = 1;
+      A = 'b10101010;
+      B = 'b01010101;
+      opcode = 'b0101; 
+      @(posedge clk);
+      if (out != A ^ B) $display ("ERROR: XOR failed. Expected = %h Actual %h", (A ^ B), out);
+      else $display ("INFO: XOR succeeded. Expected = %0h Actual %0h", (A ^ B), out);
+  end
+  endtask
+  
+  task do_not();
+   begin
+      @(posedge clk);
+      en = 1;
+      A = 'b10101010;
+      opcode = 'b0100; 
+    end
+  endtask
+  
+  task chk_not();
+    begin
+      @(posedge clk);
+      en = 1;
+      A = 'b10101010;
+      opcode = 'b0100;
+      @(posedge clk);
+      if (out != ~ A) $display ("ERROR: not failed. Expected = %h Actual %h", (~ A), out);
+      else $display ("INFO: not succeeded. Expected = %0h Actual %0h", (~ A), out);
+    end
+  endtask
+  
+  task do_nand();
+    begin
+      @(posedge clk);
+      en = 1;
+      A = 'b10101010;
+      B = 'b01010101;
+      opcode = 'b0011;
+    end
+  endtask
+  
+  task chk_nand();
+    begin
+      @(posedge clk);
+      en = 1;
+      A = 'b10101010;
+      B = 'b01010101;
+      opcode = 'b0011; 
+      @(posedge clk);
+      if (out != ~(A&B)) $display ("ERROR: NAND failed. Expected = %h Actual %h", ~(A&B), out);
+      else $display ("INFO: NAND succeeded. Expected = %0h Actual %0h", ~(A&B), out);
+   end
+  endtask
+  
 endmodule
